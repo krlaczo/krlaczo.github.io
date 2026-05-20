@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SZTG Hulladék – Szentgotthárdi hulladékszállítás</title>
+    <meta name="description" content="Szentgotthárdi hulladékszállítási naptár alkalmazás Androidra">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f3ee;
+            --surface: #ffffff;
+            --primary: #2d6a4f;
+            --primary-light: #52b788;
+            --accent: #FFEA00;
+            --accent-dark: #4E342E;
+            --text: #1a1a1a;
+            --text-muted: #6b6b6b;
+            --selektiv: #FFD54F;
+            --gruenscnitt: #66BB6A;
+            --restmuell: #9E9E9E;
+            --radius: 16px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* LANGUAGE SWITCHER */
+        .lang-bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: flex-end;
+            padding: 12px 24px;
+            background: rgba(245,243,238,0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .lang-bar button {
+            background: none;
+            border: 1.5px solid transparent;
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .lang-bar button.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(45,106,79,0.07);
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 24px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px; right: -200px;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(82,183,136,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -100px; left: -100px;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(255,234,0,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--primary);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 32px rgba(45,106,79,0.3);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.2rem, 6vw, 3.8rem);
+            line-height: 1.15;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .hero h1 em {
+            color: var(--primary);
+            font-style: italic;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: var(--text-muted);
+            max-width: 520px;
+            margin: 0 auto 36px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(45,106,79,0.35);
+            transition: all 0.25s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(45,106,79,0.45);
+        }
+
+        .btn-donate {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent);
+            color: var(--accent-dark);
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(255,234,0,0.4);
+            transition: all 0.25s;
+        }
+
+        .btn-donate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(255,234,0,0.5);
+        }
+
+        /* FEATURES */
+        .section {
+            padding: 80px 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary-light);
+            margin-bottom: 12px;
+        }
+
+        .section h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            margin-bottom: 48px;
+            line-height: 1.2;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            transition: transform 0.25s;
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .feature-card:hover { transform: translateY(-4px); }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .feature-card:nth-child(2) { animation-delay: 0.1s; }
+        .feature-card:nth-child(3) { animation-delay: 0.2s; }
+        .feature-card:nth-child(4) { animation-delay: 0.3s; }
+        .feature-card:nth-child(5) { animation-delay: 0.4s; }
+        .feature-card:nth-child(6) { animation-delay: 0.5s; }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* WASTE TYPES */
+        .waste-section {
+            background: var(--primary);
+            color: white;
+            padding: 80px 24px;
+        }
+
+        .waste-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .waste-inner .section-label { color: var(--primary-light); }
+        .waste-inner h2 { color: white; margin-bottom: 40px; }
+
+        .waste-types {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .waste-tag {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .waste-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* PRIVACY */
+        .privacy-section {
+            padding: 80px 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .privacy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .privacy-item {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .privacy-item h4 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .privacy-item p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--text);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 40px 24px;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* HIDDEN LANG CONTENT */
+        [data-lang] { display: none; }
+        [data-lang].active { display: block; }
+        .inline-lang { display: none; }
+        .inline-lang.active { display: inline; }
+
+        @media (max-width: 600px) {
+            .btn-group { flex-direction: column; align-items: center; }
+            .waste-types { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LANGUAGE SWITCHER -->
+<div class="lang-bar">
+    <div style="display:flex;gap:6px;">
+        <button onclick="setLang('hu')" id="btn-hu" class="active">Magyar</button>
+        <button onclick="setLang('de')" id="btn-de">Deutsch</button>
+        <button onclick="setLang('en')" id="btn-en">English</button>
+    </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="app-icon">🗑️</div>
+
+    <h1>
+        <span data-lang="hu" class="active inline-lang">Szentgotthárdi <em>hulladékszállítás</em></span>
+        <span data-lang="de" class="inline-lang">Abfallkalender <em>Szentgotthárd</em></span>
+        <span data-lang="en" class="inline-lang">Waste Calendar <em>Szentgotthárd</em></span>
+    </h1>
+
+    <p>
+        <span data-lang="hu" class="active inline-lang">Tudd meg, mikor viszik el a hulladékot a te utcádból. Naptár szinkronizálással, több cím támogatásával.</span>
+        <span data-lang="de" class="inline-lang">Erfahre, wann die Abfuhr in deiner Straße stattfindet. Mit Kalender-Synchronisation und Mehrfachadressen-Support.</span>
+        <span data-lang="en" class="inline-lang">Find out when waste is collected on your street. With calendar sync and multi-address support.</span>
+    </p>
+
+    <div class="btn-group">
+        <a href="https://play.google.com/store" class="btn-primary" target="_blank">
+            ▶
+            <span data-lang="hu" class="active inline-lang">Letöltés Google Play-ről</span>
+            <span data-lang="de" class="inline-lang">Im Google Play Store</span>
+            <span data-lang="en" class="inline-lang">Get it on Google Play</span>
+        </a>
+        <a href="https://buymeacoffee.com/krlaczo?l=en" id="donate-btn" class="btn-donate" target="_blank">
+            ☕
+            <span data-lang="hu" class="active inline-lang">Támogass egy kávéval</span>
+            <span data-lang="de" class="inline-lang">Einen Kaffee spendieren</span>
+            <span data-lang="en" class="inline-lang">Buy me a coffee</span>
+        </a>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section">
+    <p class="section-label">
+        <span data-lang="hu" class="active inline-lang">Funkciók</span>
+        <span data-lang="de" class="inline-lang">Funktionen</span>
+        <span data-lang="en" class="inline-lang">Features</span>
+    </p>
+    <h2>
+        <span data-lang="hu" class="active inline-lang">Minden, amire szükséged van</span>
+        <span data-lang="de" class="inline-lang">Alles, was du brauchst</span>
+        <span data-lang="en" class="inline-lang">Everything you need</span>
+    </h2>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">📍</div>
+            <h3 data-lang="hu" class="active">Több cím támogatása</h3>
+            <h3 data-lang="de">Mehrere Adressen</h3>
+            <h3 data-lang="en">Multiple addresses</h3>
+            <p data-lang="hu" class="active">Akár 5 különböző cím is hozzáadható egyszerre.</p>
+            <p data-lang="de">Bis zu 5 verschiedene Adressen gleichzeitig verwalten.</p>
+            <p data-lang="en">Add up to 5 different addresses at once.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📅</div>
+            <h3 data-lang="hu" class="active">Naptár szinkronizálás</h3>
+            <h3 data-lang="de">Kalender-Synchronisation</h3>
+            <h3 data-lang="en">Calendar sync</h3>
+            <p data-lang="hu" class="active">Az összes abfuhrtermin automatikusan bekerül a telefon naptárába emlékeztetővel.</p>
+            <p data-lang="de">Alle Abfuhrtermine werden automatisch mit Erinnerung in den Kalender eingetragen.</p>
+            <p data-lang="en">All collection dates are automatically added to your calendar with reminders.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔔</div>
+            <h3 data-lang="hu" class="active">Emlékeztető</h3>
+            <h3 data-lang="de">Erinnerung</h3>
+            <h3 data-lang="en">Reminder</h3>
+            <p data-lang="hu" class="active">A szállítás előtti napon 19:00-kor értesítést kapsz.</p>
+            <p data-lang="de">Du wirst am Vortag um 19:00 Uhr benachrichtigt.</p>
+            <p data-lang="en">You get notified at 19:00 the day before collection.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🌍</div>
+            <h3 data-lang="hu" class="active">Háromnyelvű</h3>
+            <h3 data-lang="de">Dreisprachig</h3>
+            <h3 data-lang="en">Three languages</h3>
+            <p data-lang="hu" class="active">Magyar, német és angol nyelvű felület.</p>
+            <p data-lang="de">Benutzeroberfläche auf Ungarisch, Deutsch und Englisch.</p>
+            <p data-lang="en">Interface available in Hungarian, German and English.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📴</div>
+            <h3 data-lang="hu" class="active">Offline működés</h3>
+            <h3 data-lang="de">Offline-Betrieb</h3>
+            <h3 data-lang="en">Works offline</h3>
+            <p data-lang="hu" class="active">Internet kapcsolat nélkül is teljes mértékben működik.</p>
+            <p data-lang="de">Funktioniert vollständig ohne Internetverbindung.</p>
+            <p data-lang="en">Fully functional without an internet connection.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🗓️</div>
+            <h3 data-lang="hu" class="active">Közelgő esemény</h3>
+            <h3 data-lang="de">Nächster Termin</h3>
+            <h3 data-lang="en">Upcoming event</h3>
+            <p data-lang="hu" class="active">A főoldalon azonnal látod a következő hulladékszállítás dátumát.</p>
+            <p data-lang="de">Auf der Startseite siehst du sofort den nächsten Abfuhrtermin.</p>
+            <p data-lang="en">The home screen shows the next collection date immediately.</p>
+        </div>
+    </div>
+</section>
+
+<!-- WASTE TYPES -->
+<section class="waste-section">
+    <div class="waste-inner">
+        <p class="section-label">
+            <span data-lang="hu" class="active inline-lang">Hulladéktípusok</span>
+            <span data-lang="de" class="inline-lang">Abfallarten</span>
+            <span data-lang="en" class="inline-lang">Waste types</span>
+        </p>
+        <h2>
+            <span data-lang="hu" class="active inline-lang">Három hulladéktípus</span>
+            <span data-lang="de" class="inline-lang">Drei Abfallarten</span>
+            <span data-lang="en" class="inline-lang">Three waste categories</span>
+        </h2>
+        <div class="waste-types">
+            <div class="waste-tag">
+                <div class="waste-dot" style="background:#FFD54F"></div>
+                <span data-lang="hu" class="active inline-lang">Szelektív hulladék</span>
+                <span data-lang="de" class="inline-lang">Selektiver Abfall</span>
+                <span data-lang="en" class="inline-lang">Selective waste</span>
+            </div>
+            <div class="waste-tag">
+                <div class="waste-dot" style="background:#66BB6A"></div>
+                <span data-lang="hu" class="active inline-lang">Biohulladék</span>
+                <span data-lang="de" class="inline-lang">Bioabfall</span>
+                <span data-lang="en" class="inline-lang">Bio waste</span>
+            </div>
+            <div class="waste-tag">
+                <div class="waste-dot" style="background:#9E9E9E"></div>
+                <span data-lang="hu" class="active inline-lang">Kommunális hulladék</span>
+                <span data-lang="de" class="inline-lang">Restmüll</span>
+                <span data-lang="en" class="inline-lang">Residual waste</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="privacy-section">
+    <p class="section-label">
+        <span data-lang="hu" class="active inline-lang">Adatvédelem</span>
+        <span data-lang="de" class="inline-lang">Datenschutz</span>
+        <span data-lang="en" class="inline-lang">Privacy</span>
+    </p>
+    <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.2;">
+        <span data-lang="hu" class="active inline-lang">Az adataid biztonságban vannak</span>
+        <span data-lang="de" class="inline-lang">Deine Daten sind sicher</span>
+        <span data-lang="en" class="inline-lang">Your data is safe</span>
+    </h2>
+    <div class="privacy-grid">
+        <div class="privacy-item">
+            <h4>
+                <span data-lang="hu" class="active inline-lang">Nincs adatgyűjtés</span>
+                <span data-lang="de" class="inline-lang">Keine Datenerfassung</span>
+                <span data-lang="en" class="inline-lang">No data collection</span>
+            </h4>
+            <p data-lang="hu" class="active">Az app nem gyűjt személyes adatokat automatikusan.</p>
+            <p data-lang="de">Die App erfasst keine personenbezogenen Daten automatisch.</p>
+            <p data-lang="en">The app does not automatically collect personal data.</p>
+        </div>
+        <div class="privacy-item">
+            <h4>
+                <span data-lang="hu" class="active inline-lang">Helyi tárolás</span>
+                <span data-lang="de" class="inline-lang">Lokale Speicherung</span>
+                <span data-lang="en" class="inline-lang">Local storage</span>
+            </h4>
+            <p data-lang="hu" class="active">A kiválasztott cím csak az eszközödön tárolódik.</p>
+            <p data-lang="de">Die gewählte Adresse wird nur auf deinem Gerät gespeichert.</p>
+            <p data-lang="en">The selected address is stored only on your device.</p>
+        </div>
+        <div class="privacy-item">
+            <h4>
+                <span data-lang="hu" class="active inline-lang">Nincs megosztás</span>
+                <span data-lang="de" class="inline-lang">Keine Weitergabe</span>
+                <span data-lang="en" class="inline-lang">No sharing</span>
+            </h4>
+            <p data-lang="hu" class="active">Harmadik féllel semmilyen adatot nem osztunk meg.</p>
+            <p data-lang="de">Es werden keine Daten an Dritte weitergegeben.</p>
+            <p data-lang="en">No data is shared with any third party.</p>
+        </div>
+        <div class="privacy-item">
+            <h4>
+                <span data-lang="hu" class="active inline-lang">Kapcsolati adatok</span>
+                <span data-lang="de" class="inline-lang">Kontaktdaten</span>
+                <span data-lang="en" class="inline-lang">Contact data</span>
+            </h4>
+            <p data-lang="hu" class="active">Az üzenetküldéskor megadott adatokat csak a kérdés megválaszolásához használjuk fel, és 90 napon belül töröljük.</p>
+            <p data-lang="de">Kontaktdaten werden nur zur Beantwortung genutzt und innerhalb von 90 Tagen gelöscht.</p>
+            <p data-lang="en">Contact data is used only to respond to inquiries and deleted within 90 days.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-links">
+        <a href="mailto:app.fejlesztes.info@gmail.com">app.fejlesztes.info@gmail.com</a>
+        <a href="https://buymeacoffee.com/krlaczo?l=en" id="footer-donate" target="_blank">☕ Buy me a coffee</a>
+    </div>
+    <p>© 2026 SZTG Hulladék &nbsp;·&nbsp;
+        <span data-lang="hu" class="active inline-lang">Minden jog fenntartva</span>
+        <span data-lang="de" class="inline-lang">Alle Rechte vorbehalten</span>
+        <span data-lang="en" class="inline-lang">All rights reserved</span>
+    </p>
+</footer>
+
+<script>
+    function setLang(lang) {
+        // Update buttons
+        document.querySelectorAll('.lang-bar button').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-' + lang).classList.add('active');
+
+        // Update content
+        document.querySelectorAll('[data-lang]').forEach(el => {
+            el.classList.toggle('active', el.dataset.lang === lang);
+        });
+
+        // Update donate URL
+        const donateUrl = lang === 'de'
+            ? 'https://buymeacoffee.com/krlaczo'
+            : 'https://buymeacoffee.com/krlaczo?l=en';
+        document.getElementById('donate-btn').href = donateUrl;
+        document.getElementById('footer-donate').href = donateUrl;
+
+        // Update html lang
+        document.documentElement.lang = lang;
+    }
+</script>
+
+</body>
+</html>

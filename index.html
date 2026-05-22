@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SZTG Hulladék – Szentgotthárdi hulladékszállítás</title>
-    <meta name="description" content="Szentgotthárdi hulladékszállítási naptár alkalmazás Androidra">
+    <title>HulladékApp – Hulladékszállítási naptár</title>
+    <meta name="description" content="HulladékApp – Hulladékszállítási naptár alkalmazás Androidra">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
@@ -300,31 +300,91 @@
             margin: 0 auto;
         }
 
-        .privacy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-            margin-top: 40px;
-        }
-
-        .privacy-item {
+        .privacy-summary {
             background: var(--surface);
             border-radius: var(--radius);
-            padding: 24px;
+            padding: 20px 24px;
             box-shadow: var(--shadow);
+            margin-bottom: 32px;
+            border-left: 4px solid var(--primary);
         }
 
-        .privacy-item h4 {
+        .privacy-summary-row {
+            display: flex;
+            gap: 12px;
+            padding: 6px 0;
+            font-size: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .privacy-summary-row:last-child { border-bottom: none; }
+
+        .privacy-summary-label {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 160px;
+            flex-shrink: 0;
+        }
+
+        .privacy-summary a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .privacy-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .privacy-item-numbered {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .privacy-number {
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .privacy-content h4 {
             font-size: 15px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: var(--primary);
         }
 
-        .privacy-item p {
+        .privacy-content p {
             font-size: 14px;
             color: var(--text-muted);
             line-height: 1.6;
+        }
+
+        .privacy-content a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .privacy-content a:hover { text-decoration: underline; }
+
+        @media (max-width: 600px) {
+            .privacy-summary-label { min-width: 120px; font-size: 13px; }
+            .privacy-summary-row { font-size: 13px; }
         }
 
         /* FOOTER */
@@ -379,15 +439,15 @@
     <div class="app-icon">🗑️</div>
 
     <h1>
-        <span data-lang="hu" class="active inline-lang">Szentgotthárdi <em>hulladékszállítás</em></span>
-        <span data-lang="de" class="inline-lang">Abfallkalender <em>Szentgotthárd</em></span>
-        <span data-lang="en" class="inline-lang">Waste Calendar <em>Szentgotthárd</em></span>
+        <span data-lang="hu" class="active inline-lang"><em>HulladékApp</em></span>
+        <span data-lang="de" class="inline-lang"><em>HulladékApp</em></span>
+        <span data-lang="en" class="inline-lang"><em>HulladékApp</em></span>
     </h1>
 
     <p>
-        <span data-lang="hu" class="active inline-lang">Tudd meg, mikor viszik el a hulladékot a te utcádból. Naptár szinkronizálással, több cím támogatásával.</span>
-        <span data-lang="de" class="inline-lang">Erfahre, wann die Abfuhr in deiner Straße stattfindet. Mit Kalender-Synchronisation und Mehrfachadressen-Support.</span>
-        <span data-lang="en" class="inline-lang">Find out when waste is collected on your street. With calendar sync and multi-address support.</span>
+        <span data-lang="hu" class="active inline-lang">Tudd meg, mikor viszik el a hulladékot a te településeden. Naptár szinkronizálással, több cím támogatásával.</span>
+        <span data-lang="de" class="inline-lang">Erfahre, wann die Abfuhr in deiner Gemeinde stattfindet. Mit Kalender-Synchronisation und Mehrfachadressen-Support.</span>
+        <span data-lang="en" class="inline-lang">Find out when waste is collected in your town. With calendar sync and multi-address support.</span>
     </p>
 
     <div class="btn-group">
@@ -525,48 +585,147 @@
         <span data-lang="de" class="inline-lang">Deine Daten sind sicher</span>
         <span data-lang="en" class="inline-lang">Your data is safe</span>
     </h2>
-    <div class="privacy-grid">
-        <div class="privacy-item">
-            <h4>
-                <span data-lang="hu" class="active inline-lang">Nincs adatgyűjtés</span>
-                <span data-lang="de" class="inline-lang">Keine Datenerfassung</span>
-                <span data-lang="en" class="inline-lang">No data collection</span>
-            </h4>
-            <p data-lang="hu" class="active">Az app nem gyűjt személyes adatokat automatikusan.</p>
-            <p data-lang="de">Die App erfasst keine personenbezogenen Daten automatisch.</p>
-            <p data-lang="en">The app does not automatically collect personal data.</p>
+
+    <!-- Összefoglaló / Header Block -->
+    <div class="privacy-summary">
+        <div class="privacy-summary-row">
+            <span class="privacy-summary-label">
+                <span data-lang="hu" class="active inline-lang">Alkalmazás neve:</span>
+                <span data-lang="de" class="inline-lang">App-Name:</span>
+                <span data-lang="en" class="inline-lang">App Name:</span>
+            </span>
+            <span>HulladékApp</span>
         </div>
-        <div class="privacy-item">
-            <h4>
-                <span data-lang="hu" class="active inline-lang">Helyi tárolás</span>
-                <span data-lang="de" class="inline-lang">Lokale Speicherung</span>
-                <span data-lang="en" class="inline-lang">Local storage</span>
-            </h4>
-            <p data-lang="hu" class="active">A kiválasztott cím csak az eszközödön tárolódik.</p>
-            <p data-lang="de">Die gewählte Adresse wird nur auf deinem Gerät gespeichert.</p>
-            <p data-lang="en">The selected address is stored only on your device.</p>
+        <div class="privacy-summary-row">
+            <span class="privacy-summary-label">
+                <span data-lang="hu" class="active inline-lang">Fejlesztő e-mail:</span>
+                <span data-lang="de" class="inline-lang">Entwickler-E-Mail:</span>
+                <span data-lang="en" class="inline-lang">Developer Email:</span>
+            </span>
+            <a href="mailto:app.fejlesztes.info@gmail.com">app.fejlesztes.info@gmail.com</a>
         </div>
-        <div class="privacy-item">
-            <h4>
-                <span data-lang="hu" class="active inline-lang">Nincs megosztás</span>
-                <span data-lang="de" class="inline-lang">Keine Weitergabe</span>
-                <span data-lang="en" class="inline-lang">No sharing</span>
-            </h4>
-            <p data-lang="hu" class="active">Harmadik féllel semmilyen adatot nem osztunk meg.</p>
-            <p data-lang="de">Es werden keine Daten an Dritte weitergegeben.</p>
-            <p data-lang="en">No data is shared with any third party.</p>
-        </div>
-        <div class="privacy-item">
-            <h4>
-                <span data-lang="hu" class="active inline-lang">Kapcsolati adatok</span>
-                <span data-lang="de" class="inline-lang">Kontaktdaten</span>
-                <span data-lang="en" class="inline-lang">Contact data</span>
-            </h4>
-            <p data-lang="hu" class="active">Az üzenetküldéskor megadott adatokat csak a kérdés megválaszolásához használjuk fel, és 90 napon belül töröljük.</p>
-            <p data-lang="de">Kontaktdaten werden nur zur Beantwortung genutzt und innerhalb von 90 Tagen gelöscht.</p>
-            <p data-lang="en">Contact data is used only to respond to inquiries and deleted within 90 days.</p>
+        <div class="privacy-summary-row">
+            <span class="privacy-summary-label">
+                <span data-lang="hu" class="active inline-lang">Utolsó frissítés:</span>
+                <span data-lang="de" class="inline-lang">Letzte Aktualisierung:</span>
+                <span data-lang="en" class="inline-lang">Last Updated:</span>
+            </span>
+            <span>
+                <span data-lang="hu" class="active inline-lang">2026. május</span>
+                <span data-lang="de" class="inline-lang">Mai 2026</span>
+                <span data-lang="en" class="inline-lang">May 2026</span>
+            </span>
         </div>
     </div>
+
+    <!-- Numbered privacy items -->
+    <div class="privacy-list">
+
+        <div class="privacy-item-numbered">
+            <div class="privacy-number">1</div>
+            <div class="privacy-content">
+                <h4>
+                    <span data-lang="hu" class="active inline-lang">Személyes adatok</span>
+                    <span data-lang="de" class="inline-lang">Persönliche Daten</span>
+                    <span data-lang="en" class="inline-lang">Personal Data</span>
+                </h4>
+                <p data-lang="hu" class="active">Az alkalmazás nem gyűjt, nem tárol és nem továbbít semmilyen személyes adatot automatikusan. Az alkalmazás teljes mértékben offline is működőképes.</p>
+                <p data-lang="de">Die App erfasst, speichert oder überträgt keine personenbezogenen Daten automatisch. Die App funktioniert vollständig offline.</p>
+                <p data-lang="en">The app does not automatically collect, store or transmit any personal data. The app is fully functional offline.</p>
+            </div>
+        </div>
+
+        <div class="privacy-item-numbered">
+            <div class="privacy-number">2</div>
+            <div class="privacy-content">
+                <h4>
+                    <span data-lang="hu" class="active inline-lang">Lakcím adat</span>
+                    <span data-lang="de" class="inline-lang">Wohnadresse</span>
+                    <span data-lang="en" class="inline-lang">Home Address</span>
+                </h4>
+                <p data-lang="hu" class="active">A kiválasztott lakcím kizárólag az eszközön, helyben kerül tárolásra. Ez az adat nem kerül külső szerverre, harmadik félhez, és nem kerül megosztásra senkivel.</p>
+                <p data-lang="de">Die vom Nutzer gewählte Wohnadresse wird ausschließlich lokal auf dem Gerät gespeichert. Diese Daten werden nicht an externe Server, Dritte oder andere Parteien weitergegeben.</p>
+                <p data-lang="en">The home address selected by the user is stored exclusively on the device. This data is not transmitted to any external server, third party, or other entity.</p>
+            </div>
+        </div>
+
+        <div class="privacy-item-numbered">
+            <div class="privacy-number">3</div>
+            <div class="privacy-content">
+                <h4>
+                    <span data-lang="hu" class="active inline-lang">Naptár hozzáférés</span>
+                    <span data-lang="de" class="inline-lang">Kalenderzugriff</span>
+                    <span data-lang="en" class="inline-lang">Calendar Access</span>
+                </h4>
+                <p data-lang="hu" class="active">Az alkalmazás csak az Ön kifejezett engedélyével fér hozzá a naptárhoz, kizárólag a hulladékszállítási emlékeztetők bejegyzése céljából. Az adatok az eszközön maradnak.</p>
+                <p data-lang="de">Die App greift nur mit ausdrücklicher Zustimmung des Nutzers auf den Kalender zu, ausschließlich zum Zweck der Eintragung von Abfuhrerinnerungen. Die Daten verbleiben auf dem Gerät.</p>
+                <p data-lang="en">The app only accesses the calendar with your explicit permission, solely for the purpose of adding waste collection reminders. Data remains on the device.</p>
+            </div>
+        </div>
+
+        <div class="privacy-item-numbered">
+            <div class="privacy-number">4</div>
+            <div class="privacy-content">
+                <h4>
+                    <span data-lang="hu" class="active inline-lang">Kapcsolati űrlap</span>
+                    <span data-lang="de" class="inline-lang">Kontaktformular</span>
+                    <span data-lang="en" class="inline-lang">Contact Form</span>
+                </h4>
+                <p data-lang="hu" class="active">Ha üzenetet küldesz a Kapcsolat menüponton keresztül, a megadott név, e-mail cím és üzenet kizárólag a kérdés megválaszolása céljából kerül felhasználásra. Az adatok az EmailJS szolgáltatáson keresztül kerülnek továbbításra az app.fejlesztes.info@gmail.com e-mail-címre, adatbázisban nem tárolódnak, harmadik félnek nem adjuk tovább, és legkésőbb 90 napon belül törlésre kerülnek.</p>
+                <p data-lang="de">Wenn du eine Nachricht über das Kontaktmenü sendest, werden Name, E-Mail-Adresse und Nachrichtentext ausschließlich zur Beantwortung der Anfrage verwendet. Die Daten werden über EmailJS an app.fejlesztes.info@gmail.com weitergeleitet, nicht in einer Datenbank gespeichert, nicht an Dritte weitergegeben und spätestens innerhalb von 90 Tagen gelöscht.</p>
+                <p data-lang="en">When you send a message via the Contact menu, your name, email address and message are used solely to respond to your inquiry. The data is forwarded to app.fejlesztes.info@gmail.com via EmailJS, is not stored in any database, not shared with third parties, and is deleted within 90 days.</p>
+            </div>
+        </div>
+
+        <div class="privacy-item-numbered">
+            <div class="privacy-number">5</div>
+            <div class="privacy-content">
+                <h4>
+                    <span data-lang="hu" class="active inline-lang">Hirdetések (Google AdMob)</span>
+                    <span data-lang="de" class="inline-lang">Werbung (Google AdMob)</span>
+                    <span data-lang="en" class="inline-lang">Advertising (Google AdMob)</span>
+                </h4>
+                <p data-lang="hu" class="active">Az alkalmazás Google AdMob hirdetési SDK-t használ. Az AdMob saját adatvédelmi irányelvekkel rendelkezik: <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></p>
+                <p data-lang="de">Die App verwendet das Google AdMob Werbe-SDK. AdMob hat eigene Datenschutzrichtlinien: <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></p>
+                <p data-lang="en">The app uses the Google AdMob advertising SDK. AdMob has its own privacy policy: <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></p>
+            </div>
+        </div>
+
+        <div class="privacy-item-numbered">
+            <div class="privacy-number">6</div>
+            <div class="privacy-content">
+                <h4>
+                    <span data-lang="hu" class="active inline-lang">Adatbiztonság</span>
+                    <span data-lang="de" class="inline-lang">Datensicherheit</span>
+                    <span data-lang="en" class="inline-lang">Data Security</span>
+                </h4>
+                <p data-lang="hu" class="active">Minden hálózati kommunikáció HTTPS protokollon keresztül zajlik.</p>
+                <p data-lang="de">Die gesamte Netzwerkkommunikation erfolgt über HTTPS.</p>
+                <p data-lang="en">All network communication takes place via HTTPS.</p>
+            </div>
+        </div>
+
+        <div class="privacy-item-numbered">
+            <div class="privacy-number">7</div>
+            <div class="privacy-content">
+                <h4>
+                    <span data-lang="hu" class="active inline-lang">Kapcsolat</span>
+                    <span data-lang="de" class="inline-lang">Kontakt</span>
+                    <span data-lang="en" class="inline-lang">Contact</span>
+                </h4>
+                <p data-lang="hu" class="active">Adatvédelmi kérdésekkel kapcsolatban: <a href="mailto:app.fejlesztes.info@gmail.com">app.fejlesztes.info@gmail.com</a></p>
+                <p data-lang="de">Bei datenschutzrechtlichen Fragen: <a href="mailto:app.fejlesztes.info@gmail.com">app.fejlesztes.info@gmail.com</a></p>
+                <p data-lang="en">For privacy-related questions: <a href="mailto:app.fejlesztes.info@gmail.com">app.fejlesztes.info@gmail.com</a></p>
+            </div>
+        </div>
+
+    </div>
+
+    <p style="margin-top:24px;font-style:italic;color:var(--text-muted);font-size:14px;">
+        <span data-lang="hu" class="active inline-lang">Az alkalmazás teljes mértékben offline is működik.</span>
+        <span data-lang="de" class="inline-lang">Die Anwendung funktioniert vollständig offline.</span>
+        <span data-lang="en" class="inline-lang">The application works completely offline.</span>
+    </p>
 </section>
 
 <!-- FOOTER -->
@@ -575,7 +734,7 @@
         <a href="mailto:app.fejlesztes.info@gmail.com">app.fejlesztes.info@gmail.com</a>
         <a href="https://buymeacoffee.com/krlaczo?l=en" id="footer-donate" target="_blank">☕ Buy me a coffee</a>
     </div>
-    <p>© 2026 SZTG Hulladék &nbsp;·&nbsp;
+    <p>© 2026 HulladékApp &nbsp;·&nbsp;
         <span data-lang="hu" class="active inline-lang">Minden jog fenntartva</span>
         <span data-lang="de" class="inline-lang">Alle Rechte vorbehalten</span>
         <span data-lang="en" class="inline-lang">All rights reserved</span>

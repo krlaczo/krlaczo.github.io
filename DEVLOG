@@ -1,0 +1,12 @@
+# HulladékApp – Dev Log
+
+## 2026-05-30
+### Android
+- Kalender kompakter gemacht
+- Monatsauswahl rechts neben Titel platziert
+- Samsung A3 Scrollproblem analysiert
+
+### iOS
+- Datenschutzrichtlinien als klickbarer Text eingebaut
+- Navigation in Kontaktformular repariert
+- Formularwerte bleiben beim Zurückgehen erhalten

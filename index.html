@@ -150,7 +150,6 @@
             <h3 data-lang="hu" class="active">Naptár szinkronizálás</h3>
             <h3 data-lang="de">Kalender-Synchronisation</h3>
             <h3 data-lang="en">Calendar sync</h3>
-            <!-- CHANGE 2: abfuhrtermin -> szállítási időpont (HU only) -->
             <p data-lang="hu" class="active">Az összes szállítási időpont automatikusan bekerül a telefon naptárába emlékeztetővel.</p>
             <p data-lang="de">Alle Abfuhrtermine werden automatisch mit Erinnerung in den Kalender eingetragen.</p>
             <p data-lang="en">All collection dates are automatically added to your calendar with reminders.</p>
@@ -160,7 +159,6 @@
             <h3 data-lang="hu" class="active">Emlékeztető</h3>
             <h3 data-lang="de">Erinnerung</h3>
             <h3 data-lang="en">Reminder</h3>
-            <!-- CHANGE 1: Updated reminder text all 3 languages -->
             <p data-lang="hu" class="active">A szállítás előtti napon értesítést kapsz, ha ezt beállítod. Az értesítés időpontját te választhatod ki.</p>
             <p data-lang="de">Du wirst am Vortag benachrichtigt, wenn du dies einstellst. Den Zeitpunkt der Erinnerung kannst du selbst wählen.</p>
             <p data-lang="en">You get notified the day before collection if you enable this. You can choose the time of the reminder yourself.</p>
@@ -195,7 +193,6 @@
     </div>
 </section>
 
-<!-- CHANGE 3: 4 waste types -->
 <section class="waste-section">
     <div class="waste-inner">
         <p class="section-label">
@@ -273,14 +270,26 @@
         </div>
         <div class="privacy-summary-row">
             <span class="privacy-summary-label">
+                <span data-lang="hu" class="active inline-lang">Anonim statisztika:</span>
+                <span data-lang="de" class="inline-lang">Anonyme Statistik:</span>
+                <span data-lang="en" class="inline-lang">Analytics:</span>
+            </span>
+            <span>
+                <span data-lang="hu" class="active inline-lang">Csak hozzájárulással, alapból kikapcsolva</span>
+                <span data-lang="de" class="inline-lang">Nur mit Zustimmung, standardmäßig deaktiviert</span>
+                <span data-lang="en" class="inline-lang">Opt-in only, disabled by default</span>
+            </span>
+        </div>
+        <div class="privacy-summary-row">
+            <span class="privacy-summary-label">
                 <span data-lang="hu" class="active inline-lang">Utolsó frissítés:</span>
                 <span data-lang="de" class="inline-lang">Letzte Aktualisierung:</span>
                 <span data-lang="en" class="inline-lang">Last Updated:</span>
             </span>
             <span>
-                <span data-lang="hu" class="active inline-lang">2026. május</span>
-                <span data-lang="de" class="inline-lang">Mai 2026</span>
-                <span data-lang="en" class="inline-lang">May 2026</span>
+                <span data-lang="hu" class="active inline-lang">2026. június</span>
+                <span data-lang="de" class="inline-lang">Juni 2026</span>
+                <span data-lang="en" class="inline-lang">June 2026</span>
             </span>
         </div>
     </div>
@@ -376,8 +385,20 @@
                 <p data-lang="en">For privacy-related questions: <a href="mailto:app.fejlesztes.info@gmail.com">app.fejlesztes.info@gmail.com</a></p>
             </div>
         </div>
+        <div class="privacy-item-numbered">
+            <div class="privacy-number">8</div>
+            <div class="privacy-content">
+                <h4>
+                    <span data-lang="hu" class="active inline-lang">Anonim statisztika (Firebase Analytics)</span>
+                    <span data-lang="de" class="inline-lang">Anonyme Statistik (Firebase Analytics)</span>
+                    <span data-lang="en" class="inline-lang">Anonymous Statistics (Firebase Analytics)</span>
+                </h4>
+                <p data-lang="hu" class="active">Az Ön hozzájárulásával az alkalmazás anonim, nem személyhez köthető statisztikákat gyűjt a Google Firebase Analytics segítségével (pl. melyik települést választják leggyakrabban, mely funkciókat használják). A gyűjtés alapértelmezetten ki van kapcsolva, és csak az Ön kifejezett engedélyével aktiválódik. A hozzájárulás bármikor visszavonható a Beállítások menüben.</p>
+                <p data-lang="de">Mit deiner Zustimmung sammelt die App anonyme, nicht personenbezogene Statistiken über Google Firebase Analytics (z. B. welche Stadt am häufigsten gewählt wird, welche Funktionen genutzt werden). Die Erfassung ist standardmäßig deaktiviert und wird nur mit deiner ausdrücklichen Zustimmung aktiviert. Die Zustimmung kann jederzeit im Menü Einstellungen widerrufen werden.</p>
+                <p data-lang="en">With your consent, the app collects anonymous, non-personally identifiable statistics via Google Firebase Analytics (e.g. which city is selected most often, which features are used). Collection is disabled by default and only activates with your explicit consent. You can withdraw consent anytime in the Settings menu.</p>
+            </div>
+        </div>
     </div>
-    <!-- CHANGE 4: offline sentence removed -->
 </section>
 
 <footer>
